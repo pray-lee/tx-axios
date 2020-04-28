@@ -11,3 +11,11 @@ function greeter(person) {
 }
 var user = new User('xiaoyong', 'lee');
 console.log(greeter(user));
+function createSquare(config) {
+    var newSquare = {
+        color: 'white',
+        area: 100,
+        size: '50'
+    };
+    return newSquare;
+}
