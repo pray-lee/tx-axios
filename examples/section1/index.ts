@@ -255,7 +255,7 @@ class Employee extends Person {
 }
 
 let howard = new Employee('Howard')
-console.log(howard.getElevatorPitch())
+// console.log(howard.getElevatorPitch())
 // console.log(howard.name) // 报错
 
 // readonly属性
@@ -269,4 +269,26 @@ class Person1 {
 let P1 = new Person1('lee')
 console.log(P1.name)
 // P1.name = '' // 报错，因为是只读的
+
+// 存储器 get set
+const passcode = '123'
+class Demo {
+    private _fullName: string
+    get fullName(): string {
+       return this._fullName
+    }
+    set fullName(newName: string) {
+        if(passcode && passcode === '123') {
+            this._fullName = newName
+        }else {
+            console.log('Error: Unauthorized update of demo')
+        }
+    }
+}
+let demo = new Demo()
+console.log(demo.fullName)
+demo.fullName = 'demo changed'
+if(demo.fullName) {
+   console.log(demo.fullName)
+}
 

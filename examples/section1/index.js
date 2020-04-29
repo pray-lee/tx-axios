@@ -38,7 +38,7 @@ console.log(strLength, str);
 function createSquare(config) {
     var newSquare = {
         color: 'white',
-        area: 100
+        area: 100,
     };
     if (config.color) {
         newSquare.color = config.color;
@@ -175,7 +175,7 @@ var Employee = /** @class */ (function (_super) {
     return Employee;
 }(Person));
 var howard = new Employee('Howard');
-console.log(howard.getElevatorPitch());
+// console.log(howard.getElevatorPitch())
 // console.log(howard.name) // 报错
 // readonly属性
 var Person1 = /** @class */ (function () {
@@ -187,3 +187,31 @@ var Person1 = /** @class */ (function () {
 var P1 = new Person1('lee');
 console.log(P1.name);
 // P1.name = '' // 报错，因为是只读的
+// 存储器 get set
+var passcode = '123';
+var Demo = /** @class */ (function () {
+    function Demo() {
+    }
+    Object.defineProperty(Demo.prototype, "fullName", {
+        get: function () {
+            return this._fullName;
+        },
+        set: function (newName) {
+            if (passcode && passcode === '123') {
+                this._fullName = newName;
+            }
+            else {
+                console.log('Error: Unauthorized update of demo');
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return Demo;
+}());
+var demo = new Demo();
+console.log(demo.fullName);
+demo.fullName = 'demo changed';
+if (demo.fullName) {
+    console.log(demo.fullName);
+}
