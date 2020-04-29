@@ -12,7 +12,7 @@ let color: Attr1 = Attr1['Red']
 console.log(color) // 1
 
 // 函数没有返回值
-function user(): void{
+function user(): void {
     console.log('this is my user message')
 }
 
@@ -27,12 +27,14 @@ let strLength: number = (someValue as string).length
 let str: string = someValue as string // 把any类型改成string类型
 console.log(strLength, str)
 
-
 // 可选参数    ----------------------------------------------------------
 interface squareConfig {
     // 可选参数
     color?: string
     width?: 100
+
+    // 额外的属性
+    [propName: string]: any
 }
 
 interface Square {
@@ -40,21 +42,21 @@ interface Square {
     area: number,
 }
 
-function createSquare(config: squareConfig) : Square {
+function createSquare(config: squareConfig): Square {
     let newSquare = {
         color: 'white',
         area: 100,
-        size: '50'
     }
-    if(config.color) {
+    if (config.color) {
         newSquare.color = config.color
     }
-    if(config.width) {
+    if (config.width) {
         newSquare.area = config.width * config.width
     }
     return newSquare
 }
-// createSquare({color: 'black'})
+
+createSquare({color: 'black'})
 
 // 只读属性，只有创建的时候可以修改 -------------------------------------------------------
 interface Point {
@@ -67,8 +69,204 @@ let p1: Point = {x: 10, y: 20}
 
 // 数组只读
 // 先定义一个普通数组
-let a: number[] = [1,2,3]
+let a: number[] = [1, 2, 3]
 // 然后再设置只读
 let readOnlyA: ReadonlyArray<number> = a
 a[0] = 1 //这里也会报错
+
+// 接口描述 函数类型 ----------------------------------------------------
+interface SearchFunc {
+    (sourceString: string, substr: string): boolean
+}
+
+let mySearch: SearchFunc = (sourceString, substr) => {
+    let result = sourceString.search(substr)
+    return result > -1
+}
+
+// 可索引类型
+interface StringArray {
+    [index: number]: string
+}
+
+let myArray: StringArray = ['lee', 'su']
+let myStr: string = myArray[0]
+console.log(myStr)
+
+// 类 类型 类实现接口
+// 实例接口 只描述公共部分
+interface ClockInterface {
+    tick()
+}
+
+// 构造器接口 描述静态部分
+interface ClockConstructor {
+    new(h: number, m: number): ClockInterface
+}
+
+// 通过工厂函数生成实例
+function createClock(ctor: ClockConstructor, h: number, m: number): ClockInterface {
+    return new ctor(h, m)
+}
+
+// 数字时钟
+class DigitalClock implements ClockInterface {
+    constructor(h: number, m: number) {
+    }
+
+    tick() {
+        console.log('deep, deep !!!')
+    }
+}
+
+// 指针时钟
+class AnalogClock implements ClockInterface {
+    constructor(h: number, m: number) {
+    }
+
+    tick() {
+        console.log('deep, deep !!!')
+    }
+}
+
+let digital = createClock(DigitalClock, 12, 15)
+let analog = createClock(AnalogClock, 12, 15)
+digital.tick()
+analog.tick()
+
+// 接口继承
+interface Shape {
+    color: string
+}
+
+interface PenStroke {
+    penWidth: number
+}
+
+// 逗号隔开
+interface Squaree extends Shape, PenStroke {
+    sideLength: number
+}
+
+let square = {} as Squaree
+square.color = 'blue'
+square.sideLength = 10
+square.penWidth = 10
+
+// 混合类型
+interface Counter {
+    (start: number): string
+
+    interval: number
+
+    reset(): void
+}
+
+function getCounter(): Counter {
+    let counter = function (start: number) {
+        return 'counter'
+    } as Counter
+    counter.interval = 123
+    counter.reset = function () {
+        console.log('reset')
+    }
+    return counter
+}
+
+let c = getCounter()
+console.log(c.interval)
+c.reset()
+console.log(c(1))
+
+// 类
+class Greeter {
+    // 属性
+    greeting: string
+
+    // 构造器
+    constructor(message: string) {
+        this.greeting = message
+    }
+
+    // 公共方法
+    greet() {
+        return 'Hello ' + this.greeting
+    }
+}
+
+// 类继承
+class Animal {
+    name: string
+
+    constructor(name: string) {
+        this.name = name
+    }
+
+    move(distance: number = 0) {
+        console.log(`${this.name} moved${distance}m.`)
+    }
+
+}
+
+class Snake extends Animal {
+    constructor(name) {
+        super(name)
+    }
+
+    move(distance = 5) {
+        console.log('Slithering...')
+        super.move(distance)
+    }
+}
+
+let sam: Animal = new Snake('sammy')
+sam.move(40)
+
+// 修饰符
+class A {
+    public name: string
+
+    public constructor(name: string) {
+        this.name = name
+    }
+
+    public move(distance: number = 0) {
+        console.log('distance is ' + distance)
+    }
+}
+
+// protected private
+class Person {
+    protected name: string // 子类可以访问到
+    // private name: string // 子类不可以访问到, 编译会报错
+    constructor(name: string) {
+        this.name = name
+    }
+}
+
+class Employee extends Person {
+    constructor(name) {
+        super(name);
+    }
+
+    getElevatorPitch() {
+        return this.name + 'employee'
+    }
+}
+
+let howard = new Employee('Howard')
+console.log(howard.getElevatorPitch())
+// console.log(howard.name) // 报错
+
+// readonly属性
+class Person1 {
+    readonly name: string
+    constructor(theName: string) {
+        this.name = theName
+    }
+}
+
+let P1 = new Person1('lee')
+console.log(P1.name)
+// P1.name = '' // 报错，因为是只读的
 
