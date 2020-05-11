@@ -1,4 +1,4 @@
-var User = /** @class */ (function () {
+var User = /** @class */ (function() {
     function User(firstName, lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -6,11 +6,13 @@ var User = /** @class */ (function () {
     }
     return User;
 }());
+
 function greeter(person) {
     return 'Hello ' + person.firstName + ' ' + person.lastName;
 }
 var user = new User('xiaoyong', 'lee');
 console.log(greeter(user));
+
 function createSquare(config) {
     var newSquare = {
         color: 'white',

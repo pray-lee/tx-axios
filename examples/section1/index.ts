@@ -101,7 +101,7 @@ interface ClockInterface {
 
 // 构造器接口 描述静态部分
 interface ClockConstructor {
-    new(h: number, m: number): ClockInterface
+    new (h: number, m: number): ClockInterface
 }
 
 // 通过工厂函数生成实例
