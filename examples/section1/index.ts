@@ -64,6 +64,11 @@ interface Point {
     readonly y: number
 }
 
+// interface Point{
+//     readonly x: number,
+//     readonly y: boolean
+// }
+
 let p1: Point = {x: 10, y: 20}
 // p1.x = 1 // 报错
 
@@ -155,6 +160,7 @@ square.penWidth = 10
 
 // 混合类型
 interface Counter {
+    // 一个对象可以同时作为函数和对象使用，并带有额外的属性
     (start: number): string
 
     interval: number
@@ -163,6 +169,7 @@ interface Counter {
 }
 
 function getCounter(): Counter {
+    // 一个对象可以同时作为函数和对象使用，并带有额外的属性
     let counter = function (start: number) {
         return 'counter'
     } as Counter

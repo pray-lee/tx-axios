@@ -49,6 +49,10 @@ function createSquare(config) {
     return newSquare;
 }
 createSquare({ color: 'black' });
+// interface Point{
+//     readonly x: number,
+//     readonly y: boolean
+// }
 var p1 = { x: 10, y: 20 };
 // p1.x = 1 // 报错
 // 数组只读
@@ -95,6 +99,7 @@ square.color = 'blue';
 square.sideLength = 10;
 square.penWidth = 10;
 function getCounter() {
+    // 一个对象可以同时作为函数和对象使用，并带有额外的属性
     var counter = function (start) {
         return 'counter';
     };
