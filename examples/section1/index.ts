@@ -354,3 +354,6 @@ department = new AccountingDepartment() // 允许对一个抽象子类进行实�
 department.printName()
 department.printMeeting()
 // department.generateRepoorts() // 方法在生命的抽象类中不存在
+
+
+// ---------------------------------高级技巧-------------------------------------------
